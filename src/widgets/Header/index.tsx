@@ -17,7 +17,7 @@ const Header = () => {
         <UserInfo username={session.user.name} image={session.user?.image} />
       )}
       <button
-        className="bg-sky-600 px-4 py-2 rounded-md shadow-md focus:shadow-xl hover:shadow-lg"
+        className="bg-red-700 px-4 py-2 rounded-md shadow-md focus:shadow-xl hover:shadow-lg"
         onClick={() => signOut()}>
         Odjavite se
       </button>
