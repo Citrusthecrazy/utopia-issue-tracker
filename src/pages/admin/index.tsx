@@ -17,14 +17,12 @@ const Admin = () => {
     data: issues,
     isLoading: issuesLoading,
     refetch,
-  } = trpc.useQuery(["issue.getIssues"], {
-    onSuccess: (issues) => console.log(issues),
-  });
+  } = trpc.useQuery(["issue.getIssues"]);
   if (status === "loading") {
     return <PageLoading />;
   }
 
-  if (user.data?.role !== "admin") {
+  if (user.data?.role !== "admin" || !session) {
     return <Unauthorized />;
   }
 
