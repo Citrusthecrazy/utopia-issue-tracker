@@ -17,7 +17,9 @@ const Admin = () => {
     data: issues,
     isLoading: issuesLoading,
     refetch,
-  } = trpc.useQuery(["issue.getIssues"]);
+  } = trpc.useQuery(["issue.getIssues"], {
+    onSuccess: (issues) => console.log(issues),
+  });
   if (status === "loading") {
     return <PageLoading />;
   }
@@ -55,6 +57,7 @@ const IssueCard: FC<Issue & any> = ({
   createdAt,
   id,
   statusMutation,
+  user,
 }) => {
   const handleUpadateStatus = () => {
     statusMutation.mutate({ id });
@@ -62,7 +65,9 @@ const IssueCard: FC<Issue & any> = ({
 
   return (
     <div className="text-white shadow-lg rounded-lg w-full md:max-w-[330px] p-4 bg-sky-800 flex flex-col items-start">
-      <span className="text-sm">{createdAt.toLocaleDateString("sr-RS")}</span>
+      <span className="text-sm">
+        {user.name} - {createdAt.toLocaleDateString("sr-RS")}
+      </span>
       <h1 className="text-2xl">{title}</h1>
       <p className="mb-4 text-md">{description}</p>
       <div className=" flex-grow" />

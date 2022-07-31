@@ -42,6 +42,9 @@ export const issueRouter = createRouter()
         orderBy: {
           createdAt: "desc",
         },
+        include: {
+          user: true,
+        },
       });
       if (!issues)
         throw new trpc.TRPCError({
