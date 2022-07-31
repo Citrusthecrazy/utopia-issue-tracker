@@ -27,11 +27,11 @@ const Admin = () => {
   }
 
   return (
-    <main className="relative bg-sky-900 h-screen text-white overflow-auto p-4">
+    <main className="relative bg-sky-900 h-screen text-white overflow-auto py-4">
       <Header />
       <div className="pt-16" />
       {/* Header space */}
-      <div className="grid grid-cols-1 grid-rows-auto gap-y-4 md:px-16 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+      <div className="grid px-4 grid-cols-1 grid-rows-auto gap-y-8 md:gap-x-8 md:px-16 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {issuesLoading && <div>Ucitavanje problema...</div>}
         {issues &&
           !issuesLoading &&
@@ -61,7 +61,7 @@ const IssueCard: FC<Issue & any> = ({
   };
 
   return (
-    <div className="text-white mx-auto shadow-lg rounded-lg w-full md:max-w-[300px] p-4 bg-sky-800 flex flex-col items-start">
+    <div className="text-white shadow-lg rounded-lg w-full md:max-w-[330px] p-4 bg-sky-800 flex flex-col items-start">
       <span className="text-sm">{createdAt.toLocaleDateString("sr-RS")}</span>
       <h1 className="text-2xl">{title}</h1>
       <p className="mb-4 text-md">{description}</p>
