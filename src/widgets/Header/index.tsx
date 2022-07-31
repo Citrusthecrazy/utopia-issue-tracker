@@ -1,6 +1,7 @@
 import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { FC } from "react";
 import { trpc } from "../../utils/trpc";
 
@@ -12,7 +13,7 @@ type HeaderUserInfoType = {
 const Header = () => {
   const { data: session, status } = useSession();
   if (!session) return null;
-
+  const router = useRouter();
   const user = trpc.useQuery(["user.getUser"]);
 
   return (
@@ -24,9 +25,14 @@ const Header = () => {
         />
       )}
       <div>
-        {user.data?.role === "admin" && (
+        {user.data?.role === "admin" && router.pathname === "/" && (
           <Link href="/admin" onClick={() => signOut()}>
             Admin panel
+          </Link>
+        )}
+        {router.pathname === "/admin" && (
+          <Link href="/" onClick={() => signOut()}>
+            Pocetna
           </Link>
         )}
         <button
