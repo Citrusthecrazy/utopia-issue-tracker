@@ -43,6 +43,7 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     image         String?
+    role          String?   @default("user")
     accounts      Account[]
     sessions      Session[]
 }
@@ -60,5 +61,6 @@ model Issue {
     title       String
     description String
     authorId    String
+    status      String   @default("open")
     createdAt   DateTime @default(now())
 }

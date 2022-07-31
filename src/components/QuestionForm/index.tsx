@@ -1,3 +1,4 @@
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { trpc } from "../../utils/trpc";
@@ -6,6 +7,7 @@ const QuestionForm = () => {
   const [issueTitle, setIssueTitle] = useState("");
   const [issueDescription, setIssueDescription] = useState("");
   const sendQuestion = trpc.useMutation(["issue.createIssue"]);
+  const { data: session, status } = useSession();
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (issueTitle === "" || issueDescription === "")
@@ -15,17 +17,19 @@ const QuestionForm = () => {
     setIssueTitle("");
     setIssueDescription("");
   };
+  if (status === "loading") return <p>Ucitavanje...</p>;
+
   return (
     <form className="flex flex-col gap-2" onSubmit={(e) => handleOnSubmit(e)}>
       <input
-        className="pl-2 w-full min-w-[730px] focus:outline-none text-sky-900 text-lg rounded-sm"
+        className="pl-2 w-full min-w-[730px] focus:outline-none text-sky-900 text-lg rounded-md"
         type="text"
         placeholder="Naslov problema"
         value={issueTitle}
         onChange={(e) => setIssueTitle(e.target.value)}
       />
       <textarea
-        className="pl-2 w-full min-w-[730px] focus:outline-none text-sky-900 text-lg rounded-sm resize-none"
+        className="pl-2 w-full min-w-[730px] focus:outline-none text-sky-900 text-lg rounded-md resize-none"
         rows={10}
         placeholder="Opis problema"
         value={issueDescription}
