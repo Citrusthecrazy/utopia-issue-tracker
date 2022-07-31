@@ -10,7 +10,12 @@ export const issueRouter = createRouter()
       issueDescription: z.string(),
     }),
     async resolve({ ctx, input }) {
-      const lastIssueDate = await getLastIssueDate(ctx.prisma);
+      const lastIssueDate = await getLastIssueDate(ctx, ctx.prisma);
+      const user = await ctx.prisma.user.findFirst({
+        where: {
+          id: ctx.session?.user?.id,
+        },
+      });
 
       let daysSinceLastIssue = 0;
 
@@ -18,7 +23,7 @@ export const issueRouter = createRouter()
         const today = new Date();
         daysSinceLastIssue = subtractDates(today, lastIssueDate.createdAt);
       }
-      if (daysSinceLastIssue > 1 || !lastIssueDate) {
+      if (daysSinceLastIssue > 1 || !lastIssueDate || user?.role === "admin") {
         await createNewIssue(ctx, input);
       } else {
         throw new trpc.TRPCError({
@@ -85,8 +90,11 @@ function subtractDates(date1: Date, date2: Date) {
   return Math.ceil(diff / (1000 * 3600 * 24));
 }
 
-const getLastIssueDate = async (prisma: PrismaClient) => {
+const getLastIssueDate = async (ctx: Context, prisma: PrismaClient) => {
   return await prisma.issue.findFirst({
+    where: {
+      authorId: ctx.session?.user?.id,
+    },
     orderBy: {
       createdAt: "desc",
     },
