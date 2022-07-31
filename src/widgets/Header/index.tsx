@@ -12,9 +12,9 @@ type HeaderUserInfoType = {
 
 const Header = () => {
   const { data: session, status } = useSession();
-  if (!session) return null;
   const router = useRouter();
   const user = trpc.useQuery(["user.getUser"]);
+  if (!session) return null;
 
   return (
     <div className="absolute top-0 left-0 right-0 h-16 shadow-sm bg-sky-800 flex flex-row items-center justify-between px-4 md:px-16 text-white">
