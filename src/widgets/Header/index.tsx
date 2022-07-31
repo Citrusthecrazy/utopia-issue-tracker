@@ -17,7 +17,7 @@ const Header = () => {
   const user = trpc.useQuery(["user.getUser"]);
 
   return (
-    <div className="absolute top-0 left-0 right-0 h-16 shadow-sm bg-sky-800 flex flex-row items-center justify-between px-16 text-white">
+    <div className="absolute top-0 left-0 right-0 h-16 shadow-sm bg-sky-800 flex flex-row items-center justify-between px-4 md:px-16 text-white">
       {session?.user?.name && session?.user?.image && (
         <HeaderUserInfo
           username={session.user.name}
@@ -57,7 +57,7 @@ const HeaderUserInfo: FC<HeaderUserInfoType> = ({ username, image }) => {
         width={48}
         alt={`${username}'s profile picture`}
       />
-      <span className="font-semibold text-lg ml-4">
+      <span className=" hidden md:block font-semibold text-lg ml-4">
         Prijavljeni ste kao {username}
       </span>
     </div>

@@ -31,7 +31,7 @@ const Admin = () => {
       <Header />
       <div className="pt-16" />
       {/* Header space */}
-      <div className="grid grid-cols-5 grid-rows-auto gap-y-4 p-16">
+      <div className="grid grid-cols-1 grid-rows-auto gap-y-4 p-2 sm:p-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {issuesLoading && <div>Ucitavanje problema...</div>}
         {issues &&
           !issuesLoading &&
