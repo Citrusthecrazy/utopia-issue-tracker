@@ -1,4 +1,5 @@
 import { useSession, signOut } from "next-auth/react";
+import Image from "next/image";
 import React, { FC } from "react";
 
 type UserInfoType = {
@@ -30,8 +31,14 @@ export default Header;
 const UserInfo: FC<UserInfoType> = ({ username, image }) => {
   return (
     <div className="flex flex-row items-center">
-      <img src={image} className="w-12 rounded-full mr-4" />
-      <span className="font-semibold text-lg">
+      <Image
+        src={image}
+        className="rounded-full"
+        height={48}
+        width={48}
+        alt={`${username}'s profile picture`}
+      />
+      <span className="font-semibold text-lg ml-4">
         Prijavljeni ste kao {username}
       </span>
     </div>
