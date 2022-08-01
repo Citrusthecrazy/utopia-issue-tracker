@@ -2,13 +2,14 @@ import { Issue } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import React, { FC, useState } from "react";
-import { PageLoading, Unauthorized } from "../../components";
+import { IssueCard, PageLoading, Unauthorized } from "../../components";
 import { trpc } from "../../utils/trpc";
 import { Header } from "../../widgets";
 
 const Admin = () => {
   const { data: session, status } = useSession();
   const user = trpc.useQuery(["user.getUser"]);
+  const [searchFilter, setSearchFilter] = useState("");
   const statusMutation = trpc.useMutation(["issue.updateStatus"], {
     onSuccess: () => {
       refetch();
@@ -40,17 +41,35 @@ const Admin = () => {
         <Header />
         <div className="pt-16" />
         {/* Header space */}
+        <div className="px-4 md:px-16 mb-4 ">
+          <input
+            type="text"
+            placeholder="Pretrazi po autoru"
+            className="rounded-md focus:outline-none focus:outline-sky-500 px-1 w-full h-10 text-blue-800 md:w-auto md:min-w-[300px]"
+            value={searchFilter}
+            onChange={(e) => setSearchFilter(e.target.value)}
+          />
+        </div>
         <div className="grid px-4 grid-cols-1 grid-rows-auto gap-y-8 md:gap-x-8 md:px-16 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {issuesLoading && <div>Ucitavanje problema...</div>}
           {issues &&
             !issuesLoading &&
-            issues.map((issue: Issue) => (
-              <IssueCard
-                key={issue.id}
-                {...issue}
-                statusMutation={statusMutation}
-              />
-            ))}
+            issues
+              .filter((item) =>
+                item.user.name
+                  ?.toLowerCase()
+                  .includes(searchFilter.toLowerCase())
+              )
+              .map((issue: Issue) => (
+                <IssueCard
+                  key={issue.id}
+                  {...issue}
+                  statusMutation={statusMutation}
+                />
+              ))}
+          {issues && issues?.length <= 0 && (
+            <div>Trenutno nema prijavljenih problema</div>
+          )}
         </div>
       </main>
     </>
@@ -58,34 +77,3 @@ const Admin = () => {
 };
 
 export default Admin;
-
-const IssueCard: FC<Issue & any> = ({
-  title,
-  description,
-  createdAt,
-  id,
-  statusMutation,
-  user,
-}) => {
-  const handleUpadateStatus = () => {
-    setButtonDisabled(true);
-    statusMutation.mutate({ id });
-  };
-  const [buttonDisabled, setButtonDisabled] = useState(false);
-  return (
-    <div className="text-white shadow-lg rounded-lg w-full md:max-w-[330px] p-4 bg-sky-800 flex flex-col items-start">
-      <span className="text-sm">
-        {user.name} - {createdAt.toLocaleDateString("sr-RS")}
-      </span>
-      <h1 className="text-2xl">{title}</h1>
-      <p className="mb-4 text-md">{description}</p>
-      <div className=" flex-grow" />
-      <button
-        className="bg-red-700 px-4 py-2 rounded-md shadow-md focus:shadow-xl hover:shadow-lg disabled:bg-gray-500"
-        onClick={handleUpadateStatus}
-        disabled={buttonDisabled}>
-        {buttonDisabled ? "Zatvaranje..." : "Zatvori"}
-      </button>
-    </div>
-  );
-};
