@@ -22,14 +22,14 @@ const QuestionForm = () => {
   return (
     <form className="flex flex-col gap-2" onSubmit={(e) => handleOnSubmit(e)}>
       <input
-        className="pl-2 py-2 w-full min-w-[300px] sm:min-w-[700px] focus:outline-none text-sky-900 text-lg rounded-md"
+        className="pl-2 py-2 w-full min-w-[300px] sm:min-w-[700px] focus:outline-sky-400 text-sky-900 text-lg rounded-md"
         type="text"
         placeholder="Naslov problema"
         value={issueTitle}
         onChange={(e) => setIssueTitle(e.target.value)}
       />
       <textarea
-        className="pl-2 w-full min-w-[300px] sm:min-w-[700px] focus:outline-none text-sky-900 text-lg rounded-md resize-none"
+        className="pl-2 w-full min-w-[300px] sm:min-w-[700px] focus:outline-sky-400 text-sky-900 text-lg rounded-md resize-none"
         rows={10}
         placeholder="Opis problema"
         value={issueDescription}
