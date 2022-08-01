@@ -13,6 +13,9 @@ const Admin = () => {
     onSuccess: () => {
       refetch();
     },
+    onError: (e) => {
+      console.error(e);
+    },
   });
   const {
     data: issues,
@@ -32,6 +35,7 @@ const Admin = () => {
       <Head>
         <title>Admin Panel</title>
       </Head>
+
       <main className="relative bg-sky-900 h-screen text-white overflow-auto py-4">
         <Header />
         <div className="pt-16" />
@@ -64,11 +68,10 @@ const IssueCard: FC<Issue & any> = ({
   user,
 }) => {
   const handleUpadateStatus = () => {
-    setButtonDisabled(true)
+    setButtonDisabled(true);
     statusMutation.mutate({ id });
-
   };
-  const [buttonDisabled, setButtonDisabled] = useState(false)
+  const [buttonDisabled, setButtonDisabled] = useState(false);
   return (
     <div className="text-white shadow-lg rounded-lg w-full md:max-w-[330px] p-4 bg-sky-800 flex flex-col items-start">
       <span className="text-sm">
@@ -79,8 +82,9 @@ const IssueCard: FC<Issue & any> = ({
       <div className=" flex-grow" />
       <button
         className="bg-red-700 px-4 py-2 rounded-md shadow-md focus:shadow-xl hover:shadow-lg disabled:bg-gray-500"
-        onClick={handleUpadateStatus} disabled={buttonDisabled}>
-        {buttonDisabled?"Zatvaranje...":"Zatvori"}
+        onClick={handleUpadateStatus}
+        disabled={buttonDisabled}>
+        {buttonDisabled ? "Zatvaranje..." : "Zatvori"}
       </button>
     </div>
   );

@@ -26,15 +26,9 @@ const Header = () => {
       )}
       <div>
         {user.data?.role === "admin" && router.pathname === "/" && (
-          <Link href="/admin" onClick={() => signOut()}>
-            Admin panel
-          </Link>
+          <Link href="/admin">Admin panel</Link>
         )}
-        {router.pathname === "/admin" && (
-          <Link href="/" onClick={() => signOut()}>
-            Pocetna
-          </Link>
-        )}
+        {router.pathname === "/admin" && <Link href="/">Pocetna</Link>}
         <button
           className="bg-red-700 px-4 py-2 rounded-md shadow-md focus:shadow-xl hover:shadow-lg ml-4"
           onClick={() => signOut()}>
