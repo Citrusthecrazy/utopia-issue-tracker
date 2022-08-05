@@ -41,7 +41,7 @@ const Admin = () => {
         <Header />
         <div className="pt-16" />
         {/* Header space */}
-        <div className="px-4 md:px-16 mb-4 ">
+        <div className="px-4 md:px-16 mb-8 ">
           <input
             type="text"
             placeholder="Pretrazi po autoru"
